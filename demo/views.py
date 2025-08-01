@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from demo.forms import DemoForm
+from demo.models import Person
 
 def home(request):
     return HttpResponse("Django install successfull!")
@@ -19,4 +21,6 @@ def send_context(request):
     return render(request, "context.html", context)
 
 def use_form(request):
-    return render(request, "use_form.html")
+    person = Person.objects.all()
+    form = DemoForm(person=person)
+    return render(request, "use_form.html", {"form": form})
