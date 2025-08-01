@@ -23,4 +23,8 @@ def send_context(request):
 def use_form(request):
     person = Person.objects.all()
     form = DemoForm(person=person)
+    if request.method == 'POST':
+        form = DemoForm(person=person)
+        if form.is_valid():
+            print(form.changed_data)
     return render(request, "use_form.html", {"form": form})

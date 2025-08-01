@@ -7,5 +7,6 @@ class DemoForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         person = kwargs.pop("person", [])
+        print(person)
         super().__init__(*args, **kwargs)
         self.fields['person'].choices = [(emp.id, emp.name) for emp in person]
