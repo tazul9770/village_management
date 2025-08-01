@@ -17,3 +17,6 @@ def send_context(request):
         "age" : 24
     }
     return render(request, "context.html", context)
+
+def use_form(request):
+    return render(request, "use_form.html")
