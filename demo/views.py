@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from demo.forms import DemoForm
+from demo.forms import DemoForm, Modelform
 from demo.models import Person
 
 def home(request):
@@ -24,7 +24,17 @@ def use_form(request):
     person = Person.objects.all()
     form = DemoForm(person=person)
     if request.method == 'POST':
-        form = DemoForm(person=person)
+        form = DemoForm(request.POST, person=person)
         if form.is_valid():
-            print(form.changed_data)
+            print(form.cleaned_data)
+
     return render(request, "use_form.html", {"form": form})
+
+def model_form(request):
+    form = Modelform()
+    if request.method == 'POST':
+        form = Modelform(request.POST)
+        if form.is_valid():
+            form.save()
+            print(form.cleaned_data)
+    return render(request, 'model_form.html', {"form":form})

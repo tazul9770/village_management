@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class="max-w-md mx-auto bg-gray-100 rounded-md shadow-md">
+        <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="mb-4 mr-10 submit" class="px-3 py-2 bg-blue-600 rounded-sm w-1/2 text-white font-semibold">Submit</button>
+    </form>
+    </div>
+</body>
+</html>
