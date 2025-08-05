@@ -7,13 +7,13 @@
 </head>
 <body>
    <div>
-    <ul>
+    {% comment %} <ul>
         {% for book in books %}
             <li>
                 <p>{{book.title}} : {{book.category_count}}</p>
             </li>
         {% endfor %}
-    </ul> 
+    </ul>  {% endcomment %}
    </div> 
 </body>
 </html>

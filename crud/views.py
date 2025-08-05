@@ -1,9 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.db.models import Count
 from crud.models import Book, Author, BookDetail, Category
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+
 
 def show_data(request):
+
     # all books retrive
     # books = Book.objects.all()
 
@@ -35,6 +39,17 @@ def show_data(request):
     #books = Category.objects.annotate(total_books=Count('books'))
 
     # j sob book er category akadhik
-    #books = Book.objects.annotate(category_count=Count('categories')).filter(category_count__gt=1)
+    books = Book.objects.annotate(category_count=Count('categories')).filter(category_count__gt=1)
 
     return render(request, 'show_data.html', {'books':books})
+
+def sign_in(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "User create successfull")
+            return redirect('sign_in')
+    else: 
+        form = UserCreationForm()
+    return render(request, 'user_create_form.html', {"form":form})
