@@ -72,6 +72,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'village_management.wsgi.application'
 
 
+
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 

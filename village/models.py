@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils import timezone
 
 class Village(models.Model):
     name = models.CharField(max_length=250)
@@ -27,28 +28,28 @@ class UserProfile(models.Model):
     def __str__(self):
         return f"{self.user.username} Profile"
     
+class Tag(models.Model):
+    name = models.CharField(max_length=60, unique=True)
+
+    def __str__(self):
+        return self.name
+    
 class Complain(models.Model):
     STATUS_CHOICES = (
         ('pending', 'PENDING'),
         ('resolved', 'RESOLVED'),
         ('rejected', 'REJECTED')
     )
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='conplains')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='complains')
+    tags = models.ManyToManyField(Tag, related_name='complaints', blank=True)
     title = models.CharField(max_length=250)
     description = models.TextField()
     image = models.ImageField(upload_to='complaint_image/', blank=True, null=True, default='images/default.png')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
-    submitted_at = models.DateTimeField(auto_now_add=True)
+    submitted_at = models.DateTimeField(default=timezone.now())
 
     def __str__(self):
         return f"{self.title} - {self.user.username}"
-    
-class Tag(models.Model):
-    name = models.CharField(max_length=60, unique=True)
-    complaint = models.ManyToManyField(Complain, related_name='tags', blank=True)
-
-    def __str__(self):
-        return self.name
     
 class ComplainResponse(models.Model):
     complain = models.ForeignKey(Complain, on_delete=models.CASCADE, related_name='responses')

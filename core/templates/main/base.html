@@ -22,7 +22,7 @@
         {% if user.is_authenticated %}
           <img 
             id="profile-toggle"
-            src="{{ user.profile.image.url|default:'/static/default-profile.png' }}" 
+            src="{% if user.profile.profile_picture %}{{ user.profile.profile_picture.url }}{% else %}https://i.pravatar.cc/40{% endif %}" 
             alt="Profile" 
             class="w-10 h-10 rounded-full object-cover border-2 border-green-600 cursor-pointer"
           />

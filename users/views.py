@@ -62,6 +62,7 @@ def user_profile(request):
     return render(request, "profile/profile.html", {'profile':profile})
 
 
+@login_required
 def profile_edit(request):
     profile, created = UserProfile.objects.get_or_create(user=request.user)
     form = EditProfileForm(instance=profile, user=request.user)

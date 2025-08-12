@@ -1,10 +1,26 @@
 from django import forms
-from village.models import Complain, Village, UserProfile
+from village.models import Complain, Village, UserProfile, Tag
+
 
 class ComplainForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+        queryset=Tag.objects.all(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        label="Select Tags"
+    )
+
     class Meta:
         model = Complain
-        fields = ['title', 'description', 'image']
+        fields = ['title', 'description', 'image', 'tags']
+
+    def save(self, commit=True):
+        complain = super().save(commit=False)
+        if commit:
+            complain.save()
+            self.save_m2m()
+        return complain
+
 
 class VillageForm(forms.ModelForm):
     class Meta:
