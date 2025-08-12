@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from users.forms import RegistrationForm, LoginForm
+from village.forms import EditProfileForm
+from users.models import CustomUser
+from village.models import UserProfile
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
@@ -49,3 +52,23 @@ def log_out(request):
     if request.method == 'POST':
         logout(request)
         return redirect('home')
+
+@login_required  
+def user_profile(request):
+    try:
+        profile = UserProfile.objects.select_related('user').get(user=request.user)
+    except UserProfile.DoesNotExist:
+        profile = None
+    return render(request, "profile/profile.html", {'profile':profile})
+
+
+def profile_edit(request):
+    profile, created = UserProfile.objects.get_or_create(user=request.user)
+    form = EditProfileForm(instance=profile, user=request.user)
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=profile, user=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Your profile update done!")
+            return redirect('profile_edit')
+    return render(request, "profile/edit_profile.html", {'form':form})

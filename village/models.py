@@ -16,6 +16,14 @@ class UserProfile(models.Model):
         related_name='profile'
     )
     address = models.TextField(blank=True)
+    profile_picture = models.ImageField(
+        upload_to='profile_pictures/',
+        blank=True,
+        null=True,
+        help_text="Upload a profile picture"
+    )
+    phone = models.CharField(max_length=25, blank=True)
+    bio = models.TextField(blank=True, default='')
     def __str__(self):
         return f"{self.user.username} Profile"
     
@@ -28,7 +36,7 @@ class Complain(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='conplains')
     title = models.CharField(max_length=250)
     description = models.TextField()
-    image = models.ImageField(upload_to='complaint_image/', blank=True, null=True)
+    image = models.ImageField(upload_to='complaint_image/', blank=True, null=True, default='images/default.png')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     submitted_at = models.DateTimeField(auto_now_add=True)
 

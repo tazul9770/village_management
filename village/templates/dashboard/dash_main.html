@@ -1,0 +1,82 @@
+<main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+
+    <h2 class="text-xl font-bold mb-8 text-gray-900">Dashboard Overview</h2>
+
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 mb-12">
+      <div
+        class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center hover:shadow-xl transition-shadow duration-300">
+        <h3 class="text-sm font-semibold text-gray-500 mb-2 tracking-wide uppercase">Total Villages</h3>
+        <p class="text-4xl font-extrabold text-green-600">15</p>
+      </div>
+
+      <div
+        class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center hover:shadow-xl transition-shadow duration-300">
+        <h3 class="text-sm font-semibold text-gray-500 mb-2 tracking-wide uppercase">Pending Complaints</h3>
+        <p class="text-4xl font-extrabold text-yellow-500">8</p>
+      </div>
+
+      <div
+        class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center hover:shadow-xl transition-shadow duration-300">
+        <h3 class="text-sm font-semibold text-gray-500 mb-2 tracking-wide uppercase">Resolved Complaints</h3>
+        <p class="text-4xl font-extrabold text-blue-600">25</p>
+      </div>
+
+      <div
+        class="bg-white rounded-xl shadow-lg p-6 flex flex-col items-center justify-center hover:shadow-xl transition-shadow duration-300">
+        <h3 class="text-sm font-semibold text-gray-500 mb-2 tracking-wide uppercase">Total Tags</h3>
+        <p class="text-4xl font-extrabold text-purple-600">12</p>
+      </div>
+    </div>
+
+    <!-- Recent Complaints -->
+    <section class="bg-white rounded-xl shadow-lg overflow-auto">
+      <table class="min-w-full divide-y divide-gray-200 text-gray-700">
+        <thead class="bg-gray-50">
+          <tr>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Title
+            </th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              User
+            </th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Status
+            </th>
+            <th scope="col" class="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+              Submitted At
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+          <tr class="hover:bg-green-50 transition">
+            <td class="px-4 py-3 whitespace-nowrap">Water Supply Issue</td>
+            <td class="px-4 py-3 whitespace-nowrap">Rahim</td>
+            <td class="px-4 py-3 whitespace-nowrap">
+              <span
+                class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-800">Pending</span>
+            </td>
+            <td class="px-4 py-3 whitespace-nowrap">Aug 10, 2025</td>
+          </tr>
+          <tr class="hover:bg-green-50 transition">
+            <td class="px-4 py-3 whitespace-nowrap">Road Repair</td>
+            <td class="px-4 py-3 whitespace-nowrap">Karim</td>
+            <td class="px-4 py-3 whitespace-nowrap">
+              <span
+                class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800">Resolved</span>
+            </td>
+            <td class="px-4 py-3 whitespace-nowrap">Aug 9, 2025</td>
+          </tr>
+          <tr class="hover:bg-green-50 transition">
+            <td class="px-4 py-3 whitespace-nowrap">Street Light Problem</td>
+            <td class="px-4 py-3 whitespace-nowrap">Salma</td>
+            <td class="px-4 py-3 whitespace-nowrap">
+              <span
+                class="inline-flex items-center px-3 py-0.5 rounded-full text-xs font-semibold bg-red-100 text-red-800">Rejected</span>
+            </td>
+            <td class="px-4 py-3 whitespace-nowrap">Aug 8, 2025</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
