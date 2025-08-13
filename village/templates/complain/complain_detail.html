@@ -75,11 +75,59 @@
           </div>
         </div>
       </section>
+        
+      <h3 class="text-2xl font-semibold text-gray-800 mb-4">Responses for this Complain:</h3>
 
-      <a href="{% url 'update_complain' complain.id %}"
+<div class="space-y-4">
+    {% for response in complain.responses.all %}
+    <div class="bg-white shadow-md rounded-xl p-4 flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-4 border border-gray-200 hover:shadow-lg transition">
+        <!-- Responder Avatar (optional) -->
+        <div class="flex-shrink-0">
+            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-lg">
+                {{ response.responder.username|slice:":1"|upper }}
+            </div>
+        </div>
+
+        <!-- Message Content -->
+        <div class="flex-1">
+            <p class="text-gray-700">{{ response.message }}</p>
+            <p class="text-sm text-gray-500 mt-1">By: <span class="font-medium">{{ response.responder.username }}</span></p>
+        </div>
+
+        <!-- Timestamp (optional) -->
+        <div class="text-xs text-gray-400 mt-2 md:mt-0">
+            {{ response.complain.submitted_at|date:"M d, Y" }}
+        </div>
+    </div>
+    {% empty %}
+    <p class="text-gray-500 italic">No responses yet.</p>
+    {% endfor %}
+</div>
+
+
+
+      {% if request.user.is_staff %}
+        <a href="{% url 'give_response' complain.id %}"
         class="inline-block mt-6 text-indigo-600 hover:text-indigo-800 hover:underline font-semibold transition-colors duration-200">
-        Update Complaints
-      </a>
+          Give Response
+        </a>
+      {% endif %}
+
+      {% if request.user.id == complain.user.id %}
+    {% if complain.responses.count == 0 %}
+        <!-- User is owner AND no responses -->
+        <a href="{% url 'update_complain' complain.id %}"
+           class="inline-block mt-6 text-indigo-600 hover:text-indigo-800 hover:underline font-semibold transition-colors duration-200">
+           Update Complaints
+        </a>
+    {% else %}
+        <!-- User is owner BUT there are responses, disable link -->
+        <span class="inline-block mt-6 text-gray-400 cursor-not-allowed font-semibold">
+            Update Complaints
+        </span>
+    {% endif %}
+{% endif %}
+
 
     </div>
   </div>

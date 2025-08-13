@@ -1,0 +1,63 @@
+{% extends "dashboard/dashboard.html" %}
+{% block dash %}
+<div class="bg-gray-100 py-12">
+    <div class="max-w-7xl mx-auto space-y-16 px-4 sm:px-6 lg:px-8">
+        {% for village in villages %}
+        <div class="bg-white rounded-3xl shadow-xl overflow-hidden lg:flex lg:items-stretch hover:shadow-2xl transition-shadow duration-500">
+            <!-- Left Image Section -->
+            <div class="lg:w-1/2 relative h-64 lg:h-auto">
+                {% if village.image %}
+                <img src="{{ village.image.url }}" alt="{{ village.name }}" class="w-full h-full object-cover">
+                {% else %}
+                <div class="w-full h-full bg-gray-300 flex items-center justify-center text-gray-500 text-lg">
+                    No Image Available
+                </div>
+                {% endif %}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+            </div>
+
+            <!-- Right Info Section -->
+            <div class="lg:w-1/2 p-8 flex flex-col justify-between">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-4">{{ village.name }}</h2>
+                    <p class="text-gray-600 mb-6">{{ village.description|default:"No description available." }}</p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-gray-700">
+                        <p>📮 <span class="font-semibold">Post Code:</span> {{ village.post_code }}</p>
+                        <p>👥 <span class="font-semibold">Population:</span> {{ village.population|default:"N/A" }}</p>
+                        <p>🗳️ <span class="font-semibold">Voters:</span> {{ village.total_voters }}</p>
+                        <p>📏 <span class="font-semibold">Area:</span> {{ village.area_sq_km|default:"N/A" }} km²</p>
+                        <p>🏛 <span class="font-semibold">Head:</span> {{ village.head_of_village|default:"N/A" }}</p>
+                        <p>📚 <span class="font-semibold">Literacy:</span> {{ village.literacy_rate }}%</p>
+                        <p>📅 <span class="font-semibold">Established:</span> {{ village.established_year|default:"N/A" }}</p>
+                        <p>🏠 <span class="font-semibold">Houses:</span> {{ village.number_of_houses|default:"N/A" }}</p>
+                        <p>🏫 <span class="font-semibold">Schools:</span> {{ village.number_of_schools|default:"N/A" }}</p>
+                        <p>🏥 <span class="font-semibold">Health Centers:</span> {{ village.number_of_health_centers|default:"N/A" }}</p>
+                    </div>
+                </div>
+
+                <!-- Footer: Metadata + Actions -->
+                <div class="mt-6 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center space-y-3 sm:space-y-0">
+                    {% if request.user.is_staff %}
+                    <div class="flex space-x-3">
+                         <!-- Edit Button (Link) -->
+                        <a href="{% url 'update_village' village.id %}" class="px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition flex items-center justify-center">
+                        <span>Edit</span>
+                         </a>
+
+                        <!-- Delete Button (Form) -->
+                         <form action="{% url 'delete_village' village.id %}" method="POST">
+                             {% csrf_token %}
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition flex items-center justify-center">
+                            <span>Delete</span>
+                            </button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock dash %}

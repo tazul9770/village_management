@@ -1,5 +1,5 @@
 from django import forms
-from village.models import Complain, Village, UserProfile, Tag
+from village.models import Complain, Village, UserProfile, Tag, ComplainResponse
 
 
 class ComplainForm(forms.ModelForm):
@@ -20,12 +20,20 @@ class ComplainForm(forms.ModelForm):
             complain.save()
             self.save_m2m()
         return complain
-
+    
+class ResponseForm(forms.ModelForm):
+    class Meta:
+        model = ComplainResponse
+        fields = ['message']
 
 class VillageForm(forms.ModelForm):
     class Meta:
         model = Village
-        fields = ['name', 'description']
+        fields = [
+            'name', 'description', 'post_code', 'population', 'total_voters',
+            'area_sq_km', 'head_of_village', 'literacy_rate', 'established_year',
+            'number_of_houses', 'number_of_schools', 'number_of_health_centers', 'image'
+        ]
 
 class EditProfileForm(forms.ModelForm):
     first_name = forms.CharField(required=True, max_length=30)
