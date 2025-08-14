@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from users.forms import RegistrationForm, LoginForm
+from users.forms import RegistrationForm, LoginForm, AssignRoleForm, CreateGroupForm
 from village.forms import EditProfileForm
-from users.models import CustomUser
 from village.models import UserProfile
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group
 
 User = get_user_model()
 
@@ -73,3 +73,31 @@ def profile_edit(request):
             messages.success(request, "Your profile update done!")
             return redirect('profile_edit')
     return render(request, "profile/edit_profile.html", {'form':form})
+
+def assign_role(request, user_id):
+    user = User.objects.get(id=user_id)
+    form = AssignRoleForm()
+    if request.method == 'POST':
+        form = AssignRoleForm(request.POST)
+        if form.is_valid():
+            role = form.cleaned_data.get('role')
+            user.groups.clear()
+            user.groups.add(role)
+            messages.success(request, f"You assigned to {role.name}")
+            return redirect('admin_dashboard')
+    return render(request, 'registration/assign_role.html', {'form':form})
+
+def create_group(request):
+    form = CreateGroupForm()
+    if request.method == 'POST':
+        form = CreateGroupForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Group created successfully !")
+            return redirect('admin_dashboard')
+    return render(request, "registration/create_group.html", {'form':form})
+
+def show_group(request):
+    groups = Group.objects.all()
+    return render(request, 'profile/show_group.html', {'groups':groups})
+    

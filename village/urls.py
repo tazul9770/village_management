@@ -1,5 +1,5 @@
 from django.urls import path
-from village.views import complain, create_village, dashboard, complain_detail, update_complain, delete_complain, village_information, update_village, delete_village, give_response
+from village.views import complain, create_village, dashboard, complain_detail, update_complain, delete_complain, village_information, update_village, delete_village, give_response, admin_dashboard
 
 urlpatterns = [
     path('complain/', complain, name='complain'),
@@ -11,5 +11,6 @@ urlpatterns = [
     path('update_village/<int:village_id>/', update_village, name='update_village'),
     path('delete_village/<int:village_id>/', delete_village, name='delete_village'),
     path('village_information/', village_information, name='village_information'),
-    path('dashboard/', dashboard, name='dashboard')
+    path('dashboard/', dashboard, name='dashboard'),
+    path('admin_dashboard/', admin_dashboard, name='admin_dashboard')
 ]

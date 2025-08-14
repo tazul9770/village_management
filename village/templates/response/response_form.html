@@ -1,12 +1,6 @@
+{% extends "dashboard/dashboard.html" %}
 {% load widget_tweaks %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
+{% block dash %}
 <body>
     <div class = "bg-gray-50 min-h-screen flex items-center justify-center p-5">
         <div class="bg-gray-100 shadow-lg p-8 rounded-lg max-w-md w-full">
@@ -31,4 +25,4 @@
         </div>
     </div>
 </body>
-</html>
+{% endblock dash %}

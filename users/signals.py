@@ -5,6 +5,8 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from village.models import UserProfile
+from django.contrib.auth.models import Group
+
 
 
 User = get_user_model()
@@ -31,3 +33,10 @@ def send_activation_email(sender, instance, created, **kwargs):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
+
+@receiver(post_save, sender=User)
+def assign_role(sender, instance, created, **kwargs):
+    if created:
+        user_group, created = Group.objects.get_or_create(name='User')
+        instance.groups.add(user_group)
+        instance.save()

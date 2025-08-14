@@ -4,7 +4,15 @@ from village.models import Complain, Village
 from village.forms import ComplainForm, VillageForm, ResponseForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
+
+User = get_user_model()
+
+@login_required
+def admin_dashboard(request):
+    users = User.objects.all()
+    return render(request, 'dashboard/admin_dash.html', {'users':users})
 
 @login_required
 def dashboard(request):

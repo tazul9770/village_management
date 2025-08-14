@@ -38,8 +38,8 @@
             <nav class="space-x-6 text-gray-700 font-semibold text-sm">
               <a href="{% url 'create_village' %}" class="hover:text-green-600 transition">Create Village</a>
               <a href="{% url 'village_information' %}" class="hover:text-green-600 transition">See Village</a>
+              <a href="{% url 'admin_dashboard' %}" class="hover:text-green-600 transition">Admin dashboard</a>
             </nav>
-            <div class="text-gray-600 font-medium text-sm select-none">Admin</div>
           {% else %}
             <!-- User Links -->
             <nav class="text-gray-700 font-semibold text-sm">
@@ -88,6 +88,7 @@
           <nav class="flex flex-col text-gray-700 font-semibold text-sm space-y-3">
             <a href="{% url 'create_village' %}" class="hover:text-green-600 transition">Create Village</a>
             <a href="{% url 'village_information' %}" class="hover:text-green-600 transition">See village</a>
+            <a href="{% url 'admin_dashboard' %}" class="hover:text-green-600 transition">Admin dashboard</a>
           </nav>
         {% else %}
           <nav class="flex flex-col text-gray-700 font-semibold text-sm space-y-3">

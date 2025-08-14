@@ -1,0 +1,49 @@
+{% extends "dashboard/dashboard.html" %}
+{% block dash %}
+
+<div class="max-w-5xl mx-auto p-6">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="px-6 py-4 border-b">
+            <h2 class="text-2xl font-semibold text-gray-800">Groups & Permissions</h2>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="min-w-full bg-white">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-gray-600 font-semibold">Group Name</th>
+                        <th class="px-6 py-3 text-left text-gray-600 font-semibold">Permissions</th>
+                        <th class="px-6 py-3 text-left text-gray-600 font-semibold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for group in groups %}
+                    <tr class="border-b hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-gray-800">
+                            {{ group.name }}
+                        </td>
+                        <td class="px-6 py-4">
+                            {% if group.permissions.all %}
+                                <div class="flex flex-wrap gap-2">
+                                    {% for perm in group.permissions.all %}
+                                        <span class="px-2 py-1 bg-gray-200 rounded text-xs">
+                                            {{ perm.name }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <span class="text-gray-400 text-sm">No permissions assigned</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="3" class="px-6 py-4 text-center text-gray-500">No groups found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock dash %}
