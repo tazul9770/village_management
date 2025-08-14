@@ -11,8 +11,9 @@ User = get_user_model()
 
 @login_required
 def admin_dashboard(request):
-    users = User.objects.all()
-    return render(request, 'dashboard/admin_dash.html', {'users':users})
+    staff_users = User.objects.filter(is_staff=True)
+    normal_users = User.objects.filter(is_staff=False)
+    return render(request, 'dashboard/admin_dash.html', {'staff_users':staff_users, 'normal_users':normal_users})
 
 @login_required
 def dashboard(request):
@@ -140,4 +141,25 @@ def give_response(request, complain_id):
             return redirect('complain_detail', user_id = complain.id)
     return render(request, 'response/response_form.html', {"form":form, "complain":complain})
 
+@login_required
+def assign_staff(request, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = True
+    user.save()
+    messages.success(request, f"{user.first_name} is now staff member !")
+    return redirect('admin_dashboard')
 
+@login_required
+def remove_staff(request, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_staff = False
+    user.save()
+    messages.success(request, f"{user.first_name} is now normal user !")
+    return redirect('admin_dashboard')
+
+@login_required
+def delete_user(request, user_id):
+    user = User.objects.get(id=user_id)
+    user.delete()
+    messages.success(request, f"{user.first_name} is deleted successfully !")
+    return redirect('admin_dashboard')
