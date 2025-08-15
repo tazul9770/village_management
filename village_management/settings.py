@@ -3,8 +3,6 @@ from decouple import config
 from pathlib import Path
 import dj_database_url
 import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -67,10 +65,11 @@ TEMPLATES = [
 ]
 
 # ================= CLOUDINARY =================
-cloudinary.config(
-    cloud_name=config('CLOUDINARY_CLOUD_NAME'),
-    api_key=config('CLOUDINARY_API_KEY'),
-    api_secret=config('CLOUDINARY_API_SECRET')
+cloudinary.config( 
+    cloud_name = config('cloud_name'), 
+    api_key = config('cloudinary_api_key'), 
+    api_secret = config('api_secret'), 
+    secure=True 
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
