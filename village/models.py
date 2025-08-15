@@ -1,12 +1,12 @@
 from django.db import models
 from django.conf import settings
-from django.utils import timezone
+from cloudinary.models import CloudinaryField  # <-- Import CloudinaryField
 
 class Village(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(blank=True)
     post_code = models.CharField(max_length=20, default='0000')
-    image = models.ImageField(upload_to='village_images/', blank=True, null=True)
+    image = CloudinaryField('image', blank=True, null=True)  # <-- Change here
     population = models.IntegerField(blank=True, null=True)
     total_voters = models.IntegerField(default=0)  
     area_sq_km = models.FloatField(blank=True, null=True, help_text="Village area in square kilometers")
@@ -31,14 +31,10 @@ class UserProfile(models.Model):
         related_name='profile'
     )
     address = models.TextField(blank=True)
-    profile_picture = models.ImageField(
-        upload_to='profile_pictures/',
-        blank=True,
-        null=True,
-        help_text="Upload a profile picture"
-    )
+    profile_picture = CloudinaryField('profile_picture', blank=True, null=True)  # <-- Change here
     phone = models.CharField(max_length=25, blank=True)
     bio = models.TextField(blank=True, default='')
+
     def __str__(self):
         return f"{self.user.username} Profile"
     
@@ -58,7 +54,7 @@ class Complain(models.Model):
     tags = models.ManyToManyField(Tag, related_name='complaints', blank=True)
     title = models.CharField(max_length=250)
     description = models.TextField()
-    image = models.ImageField(upload_to='complaint_image/', blank=True, null=True, default='images/default.png')
+    image = CloudinaryField('image', blank=True, null=True)  # <-- Change here
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     submitted_at = models.DateTimeField(auto_now_add=True)
 
@@ -71,4 +67,4 @@ class ComplainResponse(models.Model):
     message = models.TextField()
 
     def __str__(self):
-        return f"Response by {self.responder} on {self.complain.title}" 
+        return f"Response by {self.responder} on {self.complain.title}"
