@@ -8,7 +8,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['village-management.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app']
 CSRF_TRUSTED_ORIGINS = ['https://village-management.vercel.app']
 
 AUTH_USER_MODEL = 'users.CustomUser'
