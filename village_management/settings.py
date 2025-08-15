@@ -7,7 +7,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
