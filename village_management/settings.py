@@ -7,7 +7,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['http://127.0.0.1:8000']
+ALLOWED_HOSTS = ['https://village-management.vercel.app']
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
