@@ -1,6 +1,5 @@
 from decouple import config
 from pathlib import Path
-import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,7 +7,7 @@ SECRET_KEY = config('SECRET_KEY')
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app', 'localhost']
+ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'users.CustomUser'
 
