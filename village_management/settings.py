@@ -1,16 +1,13 @@
+import os
 from decouple import config
 from pathlib import Path
 import dj_database_url
-from decouple import config
-import os
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 # ================= BASE =================
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -18,8 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1','localhost']
- 
+ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
 CSRF_TRUSTED_ORIGINS = ['https://village-management.vercel.app']
 
 # ================= AUTH =================
@@ -37,8 +33,11 @@ INSTALLED_APPS = [
     'users',
     'village',
     'core',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
+# ================= MIDDLEWARE =================
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # static serve in production
@@ -52,35 +51,31 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'village_management.urls'
 
+# ================= TEMPLATES =================
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
+        'OPTIONS': {'context_processors': [
+            'django.template.context_processors.debug',
+            'django.template.context_processors.request',
+            'django.contrib.auth.context_processors.auth',
+            'django.contrib.messages.context_processors.messages',
+        ],},
     },
 ]
 
+# ================= CLOUDINARY =================
 cloudinary.config(
     cloud_name=config('CLOUDINARY_CLOUD_NAME'),
     api_key=config('CLOUDINARY_API_KEY'),
     api_secret=config('CLOUDINARY_API_SECRET')
 )
 
-
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-WSGI_APPLICATION = 'village_management.wsgi.application'
-
 # ================= DATABASE =================
-
 DATABASES = {
     'default': dj_database_url.config(
         default=os.environ.get('DATABASE_URL'),
@@ -103,16 +98,16 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ================= STATIC & MEDIA =================
+# ================= STATIC FILES =================
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'static']
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = BASE_DIR / 'media'
+# ================= MEDIA =================
+# Cloudinary handles media, no need for MEDIA_ROOT/URL
 
+# ================= AUTO FIELD =================
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # ================= EMAIL =================
@@ -123,5 +118,5 @@ EMAIL_PORT = config('EMAIL_PORT', cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
-# ================= FRONTEND URL =================
+# ================= FRONTEND =================
 FRONTEND_URL = 'https://village-management.vercel.app'
