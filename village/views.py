@@ -6,6 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+
 
 User = get_user_model()
 
@@ -55,6 +59,18 @@ def complain(request):
             messages.success(request, "Your complain created successfull!")
             return redirect('complain')
     return render(request, 'complain/complain.html', {'form':form})
+
+
+# class ComplainCreateView(LoginRequiredMixin, CreateView):
+#     form_class = ComplainForm()
+#     template_name = 'complain/complain.html'
+#     success_url = reverse_lazy('complain')
+    
+#     def form_valid(self, form):
+#         form.instance.user = self.request.user
+#         messages.success(self.request, "Your complain created successfully !")
+#         return super().form_valid(form)
+    
 
 @login_required
 def update_complain(request, user_id):
