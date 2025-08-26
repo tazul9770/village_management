@@ -1,12 +1,12 @@
 from django.db import models
 from django.conf import settings
-from cloudinary.models import CloudinaryField  # <-- Import CloudinaryField
+# from cloudinary.models import Clodinary
 
 class Village(models.Model):
     name = models.CharField(max_length=250)
     description = models.TextField(blank=True)
     post_code = models.CharField(max_length=20, default='0000')
-    image = CloudinaryField('image', blank=True, null=True)  # <-- Change here
+    image = models.ImageField('image', blank=True, null=True)  # <-- Change here
     population = models.IntegerField(blank=True, null=True)
     total_voters = models.IntegerField(default=0)  
     area_sq_km = models.FloatField(blank=True, null=True, help_text="Village area in square kilometers")
@@ -31,7 +31,7 @@ class UserProfile(models.Model):
         related_name='profile'
     )
     address = models.TextField(blank=True)
-    profile_picture = CloudinaryField('profile_picture', blank=True, null=True)  # <-- Change here
+    profile_picture = models.ImageField('profile_picture', blank=True, null=True)  # <-- Change here
     phone = models.CharField(max_length=25, blank=True)
     bio = models.TextField(blank=True, default='')
 
@@ -54,7 +54,7 @@ class Complain(models.Model):
     tags = models.ManyToManyField(Tag, related_name='complaints', blank=True)
     title = models.CharField(max_length=250)
     description = models.TextField()
-    image = CloudinaryField('image', blank=True, null=True)  # <-- Change here
+    image = models.ImageField('image', blank=True, null=True)  # <-- Change here
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='pending')
     submitted_at = models.DateTimeField(auto_now_add=True)
 

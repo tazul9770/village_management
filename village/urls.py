@@ -1,9 +1,9 @@
 from django.urls import path
-from village.views import complain, create_village, dashboard, complain_detail, update_complain, delete_complain, village_information, update_village, delete_village, give_response, admin_dashboard, assign_staff, remove_staff, delete_user
+from village.views import ComplainCreateView, create_village, dashboard, complain_detail, UpdateComplain, delete_complain, village_information, update_village, delete_village, give_response, admin_dashboard, assign_staff, remove_staff, delete_user
 
 urlpatterns = [
-    path('complain/', complain, name='complain'),
-    path('update_complain/<int:user_id>', update_complain, name='update_complain'),
+    path('complain/', ComplainCreateView.as_view(), name='complain'),
+    path('update_complain/<int:user_id>', UpdateComplain.as_view(), name='update_complain'),
     path('complain_detail/<int:user_id>/', complain_detail, name='complain_detail'),
     path('delete_complain/<int:complain_id>/', delete_complain, name='delete_complain'),
     path('give_response/<int:complain_id>/', give_response, name='give_response'),

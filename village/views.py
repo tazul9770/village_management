@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.db.models import Count, Q
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.urls import reverse_lazy
 
 
@@ -46,6 +46,7 @@ def dashboard(request):
     }
     return render(request, "dashboard/dashboard.html", context)
 
+"""Function based view
 @login_required
 def complain(request):
     form = ComplainForm()
@@ -59,19 +60,20 @@ def complain(request):
             messages.success(request, "Your complain created successfull!")
             return redirect('complain')
     return render(request, 'complain/complain.html', {'form':form})
+"""
 
-
-# class ComplainCreateView(LoginRequiredMixin, CreateView):
-#     form_class = ComplainForm()
-#     template_name = 'complain/complain.html'
-#     success_url = reverse_lazy('complain')
+class ComplainCreateView(LoginRequiredMixin, CreateView):
+    form_class = ComplainForm
+    template_name = 'complain/complain.html'
+    success_url = reverse_lazy('complain')
     
-#     def form_valid(self, form):
-#         form.instance.user = self.request.user
-#         messages.success(self.request, "Your complain created successfully !")
-#         return super().form_valid(form)
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        messages.success(self.request, "Your complain created successfully !")
+        return super().form_valid(form)
     
 
+""" Function Based View 
 @login_required
 def update_complain(request, user_id):
     complain = Complain.objects.select_related('user').prefetch_related('tags').get(id=user_id)
@@ -83,7 +85,26 @@ def update_complain(request, user_id):
             messages.success(request, f"Your complain update successfully!")
             return redirect('update_complain', user_id=complain.id)
     return render(request, 'complain/complain.html', {"form":form})
+"""
 
+class UpdateComplain(LoginRequiredMixin, UpdateView):
+    model = Complain
+    form_class = ComplainForm
+    template_name = 'complain/complain.html'
+    pk_url_kwarg = 'user_id'
+
+    def form_valid(self, form):
+        messages.success(self.request, "Your complain updated successfully !")
+        return super().form_valid(form)
+    
+    def form_invalid(self, form):
+        messages.error(self.request, "There was an error updating your complain !")
+        return super().form_invalid(form)
+    
+    def get_success_url(self):
+        return reverse_lazy('update_complain', kwargs={'user_id':self.object.id})
+    
+        
 @login_required
 def delete_complain(request, complain_id):
     complain = Complain.objects.select_related('user').prefetch_related('tags').get(id=complain_id)

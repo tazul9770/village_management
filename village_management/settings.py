@@ -1,20 +1,13 @@
 import os
 from decouple import config
 from pathlib import Path
-import dj_database_url
-import cloudinary
-from dotenv import load_dotenv
-
-load_dotenv()
-
 # ================= BASE =================
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = config('SECRET_KEY')
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['.vercel.app', '127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGINS = ['https://village-management.vercel.app']
+ALLOWED_HOSTS = []
 
 # ================= AUTH =================
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -30,9 +23,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'users',
     'village',
-    'core',
-    'cloudinary',
-    'cloudinary_storage',
+    'core'
 ]
 
 # ================= MIDDLEWARE =================
@@ -64,24 +55,14 @@ TEMPLATES = [
     },
 ]
 
-# ================= CLOUDINARY =================
-cloudinary.config( 
-    cloud_name = config('cloud_name'), 
-    api_key = config('cloudinary_api_key'), 
-    api_secret = config('api_secret'), 
-    secure=True 
-)
-
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 # ================= DATABASE =================
 DATABASES = {
-    'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
 }
+
 
 # ================= PASSWORD VALIDATORS =================
 AUTH_PASSWORD_VALIDATORS = [
@@ -93,7 +74,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # ================= INTERNATIONALIZATION =================
 LANGUAGE_CODE = 'en-us'
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Dhaka'
 USE_I18N = True
 USE_TZ = True
 
@@ -118,4 +99,6 @@ EMAIL_HOST_USER = config('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 
 # ================= FRONTEND =================
-FRONTEND_URL = 'https://village-management.vercel.app'
+FRONTEND_URL = 'http://127.0.0.1:8000'
+
+LOGIN_REDIRECT_URL = 'home'

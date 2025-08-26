@@ -8,6 +8,8 @@ from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.views import LoginView
+from django.urls import reverse_lazy
 
 User = get_user_model()
 
@@ -33,6 +35,12 @@ def log_in(request):
             login(request, user)
             return redirect('home')
     return render(request, 'registration/login.html', {'form':form})
+
+class CustomLogin(LoginView):
+    form_class = LoginForm
+    def get_success_url(self):
+        next_url = self.request.GET.get('next')
+        return next_url if next_url else super().get_success_url()
 
 def active_user(request, user_id, token):
     try:
