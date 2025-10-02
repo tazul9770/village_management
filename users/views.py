@@ -8,7 +8,7 @@ from django.contrib.auth import login, logout
 from django.contrib.auth import get_user_model
 from django.contrib.auth.tokens import default_token_generator
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView
 from django.urls import reverse_lazy
 
 User = get_user_model()
@@ -81,5 +81,24 @@ def profile_edit(request):
             return redirect('profile_edit')
     return render(request, "profile/edit_profile.html", {'form':form})
 
+class CustomPassResetView(PasswordResetView):
+    template_name = 'registration/pass_reset_form.html'
+    success_url = reverse_lazy('pass_reset')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["protocol"] = 'https' if self.request.is_secure() else 'http'
+        context['domain'] = self.request.get_host()
+        return context
     
+    def form_valid(self, form):
+        messages.success(self.request, "A reset mail send. Please check your email!")
+        return super().form_valid(form)
+    
+class CustomPassResetConfirmView(PasswordResetConfirmView):
+    template_name = 'registration/pass_reset_confirm_form.html'
+    success_url = reverse_lazy('pass_reset_confirm')
+    
+    def form_valid(self, form):
+        messages.success(self.request, "Password changes successfully")
+        return super().form_valid(form)
